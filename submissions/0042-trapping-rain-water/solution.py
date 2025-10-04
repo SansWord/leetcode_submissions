@@ -1,35 +1,29 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
-        possible_hold = [0] * len(height)
-        pre = 0
-        preIdx = -1
-        possible = False
+        if len(height) <= 2:
+            return 0
 
-        for i,h in enumerate(height):
-            if h < pre:
-                possible = True
-                possible_hold[i] = pre - h
-            elif h >= pre:
-                possible = False
-                pre = h
-                preIdx = i
+        sum = 0
+        lIdx = 0
+        lMax = height[0]
+        rIdx = len(height)-1
+        rMax = height[rIdx]
 
-        if possible:
-            reversed_height = height[preIdx:][::-1]
-            pre = 0
-            preIdx = -1
-            possible = False
+        while lIdx < rIdx:
+            if lMax < rMax:
+                lIdx += 1
+                h = height[lIdx]
+                if lMax > h:
+                    sum += lMax - h
+                else:
+                    lMax = h
+            else:
+                rIdx -= 1
+                h = height[rIdx]
+                if rMax > h:
+                    sum += rMax - h
+                else:
+                    rMax = h
 
-            # backward from end to prevIdx, which left heigt is bigger than right height
-            for i,h in enumerate(reversed_height):
-                possible_hold[-(i+1)] = 0
-                if h < pre:
-                    possible = True
-                    possible_hold[-(i+1)] = pre - h
-                elif h >= pre:
-                    possible = False
-                    pre = h
-                    preIdx = i
+        return sum
 
-        return sum(possible_hold)
-        
