@@ -1,7 +1,7 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         LEN = len(s)
-        pLens = [ [-1 for i in range(LEN)] for i in range(LEN)]
+        pLens = [ [False for i in range(LEN)] for i in range(LEN)]
         
         # [i,i] is True
         # [i,i+1] is True if [i] == [i]
@@ -19,22 +19,24 @@ class Solution:
 
         for i in range(LEN):
             for l in range(0, LEN-i):
-                currLen = 0
                 r = l + i
 
+                isPalindrome = False
+
                 if l == r:
-                    currLen = 1
+                    isPalindrome = True
                 elif s[l] == s[r]:
                     if r == l+1:
-                        currLen = 2                   
-                    elif pLens[l+1][r-1] > 0:
-                        currLen = pLens[l+1][r-1] + 2
+                        isPalindrome = True
+                    elif pLens[l+1][r-1]:
+                        isPalindrome = True
                 
-                pLens[l][r] = currLen
-
-                if currLen > maxLen:
-                    maxLen = currLen
-                    maxL = l
-                    maxR = r
+                if isPalindrome:
+                    pLens[l][r] = True
+                    currLen = r-l + 1
+                    if currLen > maxLen:
+                        maxLen = currLen
+                        maxL = l
+                        maxR = r
 
         return s[maxL:maxR+1]
