@@ -1,40 +1,39 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
+        LEN = len(nums)
         nums.sort()
-
-        # construct a value to position map in O(n) for later usage
-        # key: value of nums, v
-        # value: list of position p such that nums[p] == v
-        number_position = {}
-        for i, v in enumerate(nums):
-            if v not in number_position:
-                number_position[v] = [i]
-            else:
-                number_position[v].append(i)
-
-
         result = []
-        preFirst = None
-                
-        for i, first in enumerate(nums[:-2]):
-            if preFirst == first:
-                continue
 
-            preFirst = first
+        pre = None
+        for i, num in enumerate(nums[:-2]):
+            if num != pre:
+                twoSum = self.twoSum(nums, i+1, LEN-1, -num)
+                for pair in twoSum:
+                    result.append([num] + pair)
+                pre = num
 
+        return result
 
-            preSecond = None
-            for j in range(i+1, len(nums)):
-                second = nums[j]
-                if preSecond == second:
-                    continue
-                
-                preSecond = second
+    def twoSum(self, nums: list[int], start: int, end: int, target: int) -> List[List[int]]:
+        result = []
+        l = start
+        r = end
 
-                third = (-first - nums[j])
-                if third in number_position and number_position[third][-1] > j:
-                    result.append([first, second, third])
-
+        while l < r:
+            lVal = nums[l]
+            rVal = nums[r]
+            localSum = lVal + rVal
+            if localSum == target:
+                result.append([lVal, rVal])
+                # add l until lVal is different
+                while l < r and nums[l] == lVal:
+                    l += 1
+            
+            elif localSum < target:
+                l += 1
+            else:
+                r -= 1
+        
         return result
 
 
