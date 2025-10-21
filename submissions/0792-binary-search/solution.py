@@ -1,18 +1,16 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        lo = 0
+        lo = -1
         hi = len(nums)
-        while lo < hi:
+        while hi - lo > 1:
             mid = (lo+hi)//2
             val = nums[mid]
-            if val == target:
-                return mid
-            
             if target < val:
                 hi = mid
             else:
-                lo = mid + 1
-        
-        return -1
-            
-        
+                lo = mid
+
+        # nums[lo] <= target
+        # nums[hi] > target
+        return -1 if lo == -1 or nums[lo] != target else lo
+
