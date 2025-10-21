@@ -3,7 +3,7 @@ class Solution:
         if len(height) <= 2:
             return 0
 
-        sum = 0
+        rainSum = 0
         lIdx = 0
         lMax = height[0]
         rIdx = len(height)-1
@@ -14,16 +14,16 @@ class Solution:
                 lIdx += 1
                 h = height[lIdx]
                 if lMax > h:
-                    sum += lMax - h
+                    rainSum += lMax - h
                 else:
                     lMax = h
             else:
                 rIdx -= 1
                 h = height[rIdx]
                 if rMax > h:
-                    sum += rMax - h
+                    rainSum += rMax - h
                 else:
                     rMax = h
 
-        return sum
+        return rainSum
 
