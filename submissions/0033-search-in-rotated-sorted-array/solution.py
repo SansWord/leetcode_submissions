@@ -12,40 +12,15 @@ class Solution:
             lVal = nums[lo]
             rVal = nums[hi - 1]
 
-            
-            if lVal < rVal:
-                # normal BFS
-                if val < target:
+            if lVal < val:
+                if target > val or target < lVal:
                     lo = mid + 1
                 else:
                     hi = mid
             else:
-                # in rotated segments
-                if lVal <= target:
-                    # target in first segment
-                    if val < target:
-                        # check if val in first or second segment
-                        if val >= lVal:
-                            # val in first segment, search right
-                            lo = mid + 1
-                        else:
-                            # val in second segment, search left
-                            hi = mid
-                    else:
-                        # search left
-                        hi = mid
+                if target < val or lVal <= target:
+                    hi = mid
                 else:
-                    # target in second segment
-                    if val < target:
-                        # search right
-                        lo = mid + 1
-                    else:
-                        # check if val in first or second segment
-                        if val >= lVal:
-                            # val in first segment, search right
-                            lo = mid + 1
-                        else:
-                            # val in second segment, search left
-                            hi = mid
+                    lo = mid + 1
 
         return -1
