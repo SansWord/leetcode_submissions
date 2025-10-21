@@ -3,19 +3,18 @@ class Solution:
 
         lIdx = 0
         rIdx = len(height) - 1
-        lH = height[lIdx]
-        rH = height[rIdx]
-        maxArea = min(lH, rH) * (rIdx - lIdx)
+        maxArea = 0
 
         while lIdx < rIdx:
+            lH = height[lIdx]
+            rH = height[rIdx]
+            area = min(lH, rH) * (rIdx - lIdx)
+            maxArea = max(maxArea, area)
+
             if lH < rH:
                 lIdx += 1
-                lH = height[lIdx]
             else:
                 rIdx -= 1
-                rH = height[rIdx]
-            
-            maxArea = max(maxArea, min(lH, rH) * (rIdx - lIdx))
 
         return maxArea
         
