@@ -1,8 +1,5 @@
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
-        if len(tokens) == 0:
-            raise Exception("Should not happen")
-
         # notice the tricky behavior of ceil and floor for python
         def div(a: int, b: int) -> int:
             if a/b < 0:
@@ -17,13 +14,18 @@ class Solution:
             "/": div
         }
 
-        token = tokens.pop()
-        if token not in operators:
-            return int(token)
-        else:
-            operator = token
-            operand2 = self.evalRPN(tokens)
-            operand1 = self.evalRPN(tokens)
+        if len(tokens) == 1:
+            return int(tokens[0])
 
-            return operators[operator](operand1, operand2)
+        operandStack = []
+        for token in tokens:
+            if token not in operators:
+                operandStack.append(int(token))
+            else:
+                operator = token
+                operand2 = operandStack.pop()
+                operand1 = operandStack.pop()
+                operandStack.append(operators[operator](operand1, operand2))
+
+        return operandStack[0]
 
